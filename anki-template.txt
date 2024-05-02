@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text Comparison Tool</title>
+<style>
+
+b {cursor: text;
+        color: blue;
+        border-bottom: 1px dashed blue; /* 标示可以编辑 */
+        outline: none; /* 移除焦点边框 */
+filter: blur(3px); /* 添加模糊效果 */
+    }
+    .correct {
+        color: green;
+filter: blur(0px); /* 移除模糊效果 */
+    }
+    .incorrect {
+        color: red;
+filter: blur(0px); /* 移除模糊效果 */
+    }
+
+b:hover {
+filter: blur(1px); /* 偷看答案嘻嘻 */}
+
+
+</style>
+</head>
+<body>
+
+<script>
+    // JavaScript 代码将在这里添加
+document.querySelectorAll('b').forEach(function(item) {
+    item.setAttribute('contenteditable', 'true'); // 设置可编辑属性
+    let originalText = item.textContent; // 初始保存原始文本
+
+    item.addEventListener('input', function() {
+        let userInput = item.textContent; // 获取用户输入的文本
+
+        // 判断用户输入是否正确
+        if (userInput.trim() === originalText) {
+            item.className = 'correct'; // 正确，显示绿色
+        } else {
+            item.className = 'incorrect'; // 错误，显示红色
+        }
+    });
+
+    item.addEventListener('focus', function() {
+        item.style.borderBottom = '1px solid blue'; // 编辑时显示边框
+    });
+
+    item.addEventListener('blur', function() {
+        item.style.borderBottom = '1px dashed blue'; // 编辑结束隐藏边框
+        // 如果内容为空，重置为原始文本
+        if (!item.textContent.trim()) {
+            item.textContent = originalText;
+            item.className = ''; // 移除所有类
+        }
+    });
+});
+
+</script>
+</body>
+</html>
